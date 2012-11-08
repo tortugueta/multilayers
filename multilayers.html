@@ -1,0 +1,713 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module multilayers</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>multilayers</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/joan/Dropbox/CNM/programes/multilayers/multilayers.py">/home/joan/Dropbox/CNM/programes/multilayers/multilayers.py</a></font></td></tr></table>
+    <p><tt>Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;multilayers<br>
+Author&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;Joan&nbsp;Juvert&nbsp;&lt;trust.no.one.51@gmail.com&gt;<br>
+Version&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;1.0<br>
+Description&nbsp;&nbsp;&nbsp;:&nbsp;A&nbsp;class&nbsp;library&nbsp;to&nbsp;simulate&nbsp;light&nbsp;propagation&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;multilayer&nbsp;systems.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="bphysics.html">bphysics</a><br>
+</td><td width="25%" valign=top><a href="scipy.interpolate.html">scipy.interpolate</a><br>
+</td><td width="25%" valign=top><a href="numpy.html">numpy</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="multilayers.html#Medium">Medium</a>
+</font></dt><dt><font face="helvetica, arial"><a href="multilayers.html#Multilayer">Multilayer</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Medium">class <strong>Medium</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>The&nbsp;<a href="#Medium">Medium</a>&nbsp;class&nbsp;implements&nbsp;an&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;representing&nbsp;an&nbsp;optical<br>
+medium&nbsp;(basically&nbsp;its&nbsp;refractive&nbsp;index).<br>
+&nbsp;<br>
+It&nbsp;contains&nbsp;the&nbsp;minimum&nbsp;and&nbsp;maximum&nbsp;wavelengths&nbsp;for&nbsp;which&nbsp;the<br>
+refractive&nbsp;index&nbsp;is&nbsp;known&nbsp;and&nbsp;a&nbsp;couple&nbsp;of&nbsp;interpolators&nbsp;to&nbsp;calculate<br>
+the&nbsp;refractive&nbsp;index&nbsp;and&nbsp;extintion&nbsp;coefficient&nbsp;at&nbsp;any&nbsp;wavelength&nbsp;in<br>
+the&nbsp;available&nbsp;range.<br>
+&nbsp;<br>
+All&nbsp;the&nbsp;attributes&nbsp;are&nbsp;private&nbsp;and&nbsp;accessed&nbsp;through&nbsp;the&nbsp;provided<br>
+methods.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Medium-__init__"><strong>__init__</strong></a>(self, filename, comments<font color="#909090">='#'</font>, delimiter<font color="#909090">=None</font>, converters<font color="#909090">=None</font>, skiprows<font color="#909090">=0</font>, usecols<font color="#909090">=None</font>)</dt><dd><tt>Initialize&nbsp;a&nbsp;<a href="#Medium">Medium</a>&nbsp;instance.<br>
+&nbsp;<br>
+The&nbsp;refractive&nbsp;indices&nbsp;that&nbsp;characterize&nbsp;the&nbsp;medium&nbsp;are&nbsp;read<br>
+from&nbsp;a&nbsp;text&nbsp;file.&nbsp;After&nbsp;loading&nbsp;the&nbsp;table&nbsp;of&nbsp;refractive&nbsp;indices<br>
+an&nbsp;interpolator&nbsp;is&nbsp;built&nbsp;that&nbsp;allows&nbsp;to&nbsp;calculate&nbsp;the&nbsp;refractive<br>
+index&nbsp;at&nbsp;any&nbsp;wavelength&nbsp;within&nbsp;the&nbsp;available&nbsp;range.<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;the&nbsp;table&nbsp;is&nbsp;actually&nbsp;read&nbsp;through&nbsp;the&nbsp;numpy.loadtxt<br>
+function.&nbsp;The&nbsp;loaded&nbsp;text&nbsp;file&nbsp;must&nbsp;have&nbsp;a&nbsp;column&nbsp;with&nbsp;the<br>
+wavelength&nbsp;values,&nbsp;another&nbsp;with&nbsp;the&nbsp;real&nbsp;part&nbsp;of&nbsp;the&nbsp;refractive<br>
+index,&nbsp;and&nbsp;another&nbsp;with&nbsp;its&nbsp;imaginary&nbsp;part.&nbsp;If&nbsp;there&nbsp;are&nbsp;other<br>
+columns&nbsp;in&nbsp;your&nbsp;file,&nbsp;or&nbsp;there&nbsp;are&nbsp;not&nbsp;in&nbsp;that&nbsp;order,&nbsp;the<br>
+'usecols'&nbsp;optional&nbsp;argument&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;select&nbsp;which&nbsp;columns<br>
+to&nbsp;read.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+filename&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Path&nbsp;to&nbsp;the&nbsp;file&nbsp;containing&nbsp;the&nbsp;table&nbsp;of&nbsp;triplets<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(wavelenght,&nbsp;n,&nbsp;k)&nbsp;that&nbsp;characterize&nbsp;the&nbsp;index&nbsp;of&nbsp;refraction<br>
+&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;the&nbsp;medium.<br>
+comments&nbsp;:&nbsp;str,&nbsp;optional<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;character&nbsp;used&nbsp;to&nbsp;indicate&nbsp;the&nbsp;start&nbsp;of&nbsp;a&nbsp;comment;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;default:&nbsp;'#'.<br>
+delimiter&nbsp;:&nbsp;str,&nbsp;optional<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;string&nbsp;used&nbsp;to&nbsp;separate&nbsp;values.&nbsp;&nbsp;By&nbsp;default,&nbsp;this&nbsp;is&nbsp;any<br>
+&nbsp;&nbsp;&nbsp;&nbsp;whitespace.<br>
+converters&nbsp;:&nbsp;dict,&nbsp;optional<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;dictionary&nbsp;mapping&nbsp;column&nbsp;number&nbsp;to&nbsp;a&nbsp;function&nbsp;that&nbsp;will<br>
+&nbsp;&nbsp;&nbsp;&nbsp;convert&nbsp;that&nbsp;column&nbsp;to&nbsp;a&nbsp;float.&nbsp;&nbsp;E.g.,&nbsp;if&nbsp;column&nbsp;0&nbsp;is&nbsp;a&nbsp;date<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string:``converters&nbsp;=&nbsp;{0:&nbsp;datestr2num}``.&nbsp;&nbsp;Converters&nbsp;can<br>
+&nbsp;&nbsp;&nbsp;&nbsp;also&nbsp;be&nbsp;used&nbsp;to&nbsp;provide&nbsp;a&nbsp;default&nbsp;value&nbsp;for&nbsp;missing&nbsp;data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(but&nbsp;see&nbsp;also&nbsp;`genfromtxt`):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``converters&nbsp;=&nbsp;{3:&nbsp;lambda&nbsp;s:&nbsp;float(s.strip()&nbsp;or&nbsp;0)}``.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Default:&nbsp;None.<br>
+skiprows&nbsp;:&nbsp;int,&nbsp;optional<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Skip&nbsp;the&nbsp;first&nbsp;`skiprows`&nbsp;lines;&nbsp;default:&nbsp;0.<br>
+usecols&nbsp;:&nbsp;sequence,&nbsp;optional<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Which&nbsp;columns&nbsp;to&nbsp;read,&nbsp;with&nbsp;0&nbsp;being&nbsp;the&nbsp;first.&nbsp;&nbsp;For&nbsp;example,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``usecols&nbsp;=&nbsp;(1,4,5)``&nbsp;will&nbsp;extract&nbsp;the&nbsp;2nd,&nbsp;5th&nbsp;and&nbsp;6th<br>
+&nbsp;&nbsp;&nbsp;&nbsp;columns.&nbsp;The&nbsp;default,&nbsp;None,&nbsp;results&nbsp;in&nbsp;all&nbsp;columns&nbsp;being<br>
+&nbsp;&nbsp;&nbsp;&nbsp;read.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;<a href="#Medium">Medium</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;<a href="#Medium">Medium</a>&nbsp;instance.<br>
+&nbsp;<br>
+See&nbsp;also<br>
+--------<br>
+numpy.loadtxt</tt></dd></dl>
+
+<dl><dt><a name="Medium-getMinMaxWlength"><strong>getMinMaxWlength</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;tuple&nbsp;(min,&nbsp;max)&nbsp;with&nbsp;the&nbsp;shortest&nbsp;and&nbsp;longest<br>
+wavelengths&nbsp;for&nbsp;which&nbsp;the&nbsp;refractive&nbsp;index&nbsp;is&nbsp;known.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;tuple<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;tuple&nbsp;with&nbsp;the&nbsp;minimum&nbsp;and&nbsp;maximum&nbsp;wavelengths&nbsp;for&nbsp;which<br>
+&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;refractive&nbsp;index&nbsp;can&nbsp;be&nbsp;calculated.&nbsp;In&nbsp;the&nbsp;same&nbsp;units&nbsp;as<br>
+&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;the&nbsp;file&nbsp;from&nbsp;which&nbsp;the&nbsp;refractive&nbsp;indices&nbsp;were&nbsp;loaded.</tt></dd></dl>
+
+<dl><dt><a name="Medium-getRefrIndex"><strong>getRefrIndex</strong></a>(self, wavelength)</dt><dd><tt>Returns&nbsp;the&nbsp;complex&nbsp;refractive&nbsp;index&nbsp;at&nbsp;the&nbsp;given&nbsp;wavelength.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+wavelength&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;wavelength&nbsp;at&nbsp;which&nbsp;we&nbsp;want&nbsp;to&nbsp;calculate&nbsp;the&nbsp;complex<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refractive&nbsp;index.&nbsp;In&nbsp;the&nbsp;same&nbsp;units&nbsp;as&nbsp;in&nbsp;the&nbsp;file&nbsp;from<br>
+&nbsp;&nbsp;&nbsp;&nbsp;which&nbsp;the&nbsp;refractive&nbsp;indices&nbsp;were&nbsp;loaded.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;numpy.complex128<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;complex&nbsp;refractive&nbsp;index.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Multilayer">class <strong>Multilayer</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>The&nbsp;<a href="#Multilayer">Multilayer</a>&nbsp;class&nbsp;implements&nbsp;a&nbsp;layered&nbsp;optical&nbsp;medium&nbsp;in&nbsp;a<br>
+logical&nbsp;way.&nbsp;That&nbsp;allows&nbsp;to&nbsp;perform&nbsp;some&nbsp;complex&nbsp;calculations&nbsp;in&nbsp;an<br>
+understandable&nbsp;and&nbsp;flexible&nbsp;way.<br>
+&nbsp;<br>
+All&nbsp;the&nbsp;attributes&nbsp;are&nbsp;private&nbsp;and&nbsp;accessed&nbsp;through&nbsp;the&nbsp;provided<br>
+methods.&nbsp;The&nbsp;structure&nbsp;is&nbsp;the&nbsp;following:<br>
+&nbsp;<br>
+workingWavelength<br>
+minMaxWlength<br>
+polarization<br>
+charMatrixUpDown<br>
+charMatrixDownUp<br>
+coefficientsUpDown&nbsp;--&gt;&nbsp;{'r',&nbsp;'t',&nbsp;'R',&nbsp;'T'}<br>
+coefficientsDownUp&nbsp;--&gt;&nbsp;{'r',&nbsp;'t',&nbsp;'R',&nbsp;'T'}<br>
+stack&nbsp;--&gt;&nbsp;[<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top&nbsp;medium,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layer&nbsp;1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layer&nbsp;N,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottom&nbsp;medium&nbsp;&nbsp;----&gt;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'medium',&nbsp;&nbsp;------&gt;&nbsp;<a href="#Medium">Medium</a>&nbsp;instance<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'position',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'thickness',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'angle',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'matrix'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'refindex'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;<br>
+#There&nbsp;are&nbsp;properties&nbsp;that&nbsp;are&nbsp;common&nbsp;to&nbsp;the&nbsp;whole&nbsp;system:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Wavelength&nbsp;of&nbsp;the&nbsp;light.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Minimum&nbsp;and&nbsp;maximum&nbsp;wavelengths&nbsp;at&nbsp;which&nbsp;the&nbsp;refractive<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;indices&nbsp;can&nbsp;be&nbsp;calculated&nbsp;in&nbsp;all&nbsp;the&nbsp;layers.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Polarization&nbsp;of&nbsp;the&nbsp;light.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;The&nbsp;characteristic&nbsp;matrix&nbsp;in&nbsp;the&nbsp;up-down&nbsp;direction&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;propagation.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;The&nbsp;characteristic&nbsp;matrix&nbsp;in&nbsp;the&nbsp;down-up&nbsp;direction&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;propagation.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;The&nbsp;optical&nbsp;coefficients&nbsp;(reflection&nbsp;coefficient,&nbsp;refraction<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;coefficient,&nbsp;reflectance&nbsp;and&nbsp;transmittance).<br>
+&nbsp;<br>
+The&nbsp;stack&nbsp;is&nbsp;implemented&nbsp;as&nbsp;a&nbsp;list&nbsp;and&nbsp;contains&nbsp;parameters&nbsp;that<br>
+change&nbsp;in&nbsp;each&nbsp;layer.&nbsp;Each&nbsp;layer&nbsp;is&nbsp;a&nbsp;dictionary&nbsp;with&nbsp;the&nbsp;following<br>
+data:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;The&nbsp;medium&nbsp;(determines&nbsp;the&nbsp;refractive&nbsp;index).&nbsp;This&nbsp;is&nbsp;a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reference&nbsp;to&nbsp;a&nbsp;<a href="#Medium">Medium</a>&nbsp;instance.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;The&nbsp;position&nbsp;(z&nbsp;coordinate)&nbsp;of&nbsp;the&nbsp;layer.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;The&nbsp;thickness&nbsp;of&nbsp;the&nbsp;layer.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;The&nbsp;propagation&nbsp;angle&nbsp;of&nbsp;the&nbsp;light<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;The&nbsp;characteristic&nbsp;matrix&nbsp;of&nbsp;the&nbsp;layer.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;The&nbsp;complex&nbsp;refractive&nbsp;index&nbsp;of&nbsp;the&nbsp;layer&nbsp;at&nbsp;the&nbsp;current<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wavelength.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Multilayer-__init__"><strong>__init__</strong></a>(self, mediums)</dt><dd><tt>Generates&nbsp;a&nbsp;multilayer&nbsp;structure.<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;a&nbsp;system&nbsp;with&nbsp;a&nbsp;layer&nbsp;of&nbsp;zero&nbsp;thickness&nbsp;is&nbsp;physically<br>
+the&nbsp;same&nbsp;as&nbsp;the&nbsp;system&nbsp;without&nbsp;that&nbsp;layer,&nbsp;and&nbsp;the&nbsp;results&nbsp;of<br>
+the&nbsp;simulations&nbsp;will&nbsp;be&nbsp;the&nbsp;same.&nbsp;However,&nbsp;bear&nbsp;in&nbsp;mind&nbsp;that&nbsp;you<br>
+cannot&nbsp;"grow"&nbsp;a&nbsp;nonexistent&nbsp;layer&nbsp;but&nbsp;you&nbsp;can&nbsp;"grow"&nbsp;an&nbsp;existing<br>
+zero&nbsp;thickness&nbsp;layer&nbsp;(i.e,&nbsp;change&nbsp;its&nbsp;thickness).<br>
+&nbsp;<br>
+Initializing&nbsp;the&nbsp;multilayer&nbsp;does&nbsp;not&nbsp;involve&nbsp;providing&nbsp;any<br>
+information&nbsp;regarding&nbsp;the&nbsp;properties&nbsp;of&nbsp;the&nbsp;light&nbsp;propagating<br>
+across&nbsp;it.&nbsp;Before&nbsp;any&nbsp;calculation&nbsp;can&nbsp;be&nbsp;made&nbsp;you&nbsp;must&nbsp;enter&nbsp;the<br>
+wavelength,&nbsp;polarization&nbsp;and&nbsp;propagation&nbsp;angle&nbsp;of&nbsp;the&nbsp;light<br>
+using&nbsp;the&nbsp;appropiate&nbsp;methods.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+mediums&nbsp;:&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;containing&nbsp;the&nbsp;<a href="#Medium">Medium</a>&nbsp;instances&nbsp;that&nbsp;form&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;multilayer&nbsp;system.&nbsp;The&nbsp;first&nbsp;element&nbsp;of&nbsp;the&nbsp;list&nbsp;corresponds<br>
+&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;the&nbsp;upper&nbsp;medium&nbsp;and&nbsp;the&nbsp;last&nbsp;one&nbsp;corresponds&nbsp;to&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bottom&nbsp;medium.&nbsp;At&nbsp;least&nbsp;two&nbsp;mediums&nbsp;must&nbsp;be&nbsp;given.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Each&nbsp;element&nbsp;of&nbsp;the&nbsp;list&nbsp;(except&nbsp;the&nbsp;first&nbsp;and&nbsp;the&nbsp;last)&nbsp;is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;another&nbsp;list&nbsp;with&nbsp;two&nbsp;elements:&nbsp;the&nbsp;first&nbsp;is&nbsp;a&nbsp;reference&nbsp;to<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;<a href="#Medium">Medium</a>&nbsp;instance,&nbsp;and&nbsp;the&nbsp;second&nbsp;is&nbsp;a&nbsp;scalar&nbsp;representing<br>
+&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;thickness&nbsp;of&nbsp;that&nbsp;layer.&nbsp;If&nbsp;only&nbsp;a&nbsp;<a href="#Medium">Medium</a>&nbsp;instance&nbsp;is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;given&nbsp;instead&nbsp;of&nbsp;a&nbsp;list&nbsp;with&nbsp;two&nbsp;elements,&nbsp;then&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thickness&nbsp;will&nbsp;be&nbsp;considered&nbsp;zero.&nbsp;If&nbsp;the&nbsp;thickness&nbsp;is&nbsp;an<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'int'&nbsp;it&nbsp;will&nbsp;be&nbsp;promoted&nbsp;to&nbsp;'float'.&nbsp;The&nbsp;thickness&nbsp;must&nbsp;be<br>
+&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;the&nbsp;same&nbsp;units&nbsp;as&nbsp;the&nbsp;wavelength.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;first&nbsp;and&nbsp;last&nbsp;elements&nbsp;of&nbsp;"mediums"&nbsp;are&nbsp;just&nbsp;a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reference&nbsp;to&nbsp;the&nbsp;corresponding&nbsp;<a href="#Medium">Medium</a>&nbsp;instances.&nbsp;The<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thickness&nbsp;is&nbsp;not&nbsp;necessary&nbsp;because&nbsp;they&nbsp;represent&nbsp;the&nbsp;top<br>
+&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;bottom&nbsp;mediums&nbsp;and&nbsp;the&nbsp;thickness&nbsp;will&nbsp;be&nbsp;considered<br>
+&nbsp;&nbsp;&nbsp;&nbsp;infinite.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;<a href="#Multilayer">Multilayer</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;multilayer&nbsp;instance.<br>
+&nbsp;<br>
+Example<br>
+-------<br>
+If&nbsp;topmedium,&nbsp;layer1,&nbsp;layer2&nbsp;and&nbsp;bottommedium&nbsp;are&nbsp;<a href="#Medium">Medium</a><br>
+instances,&nbsp;then&nbsp;the&nbsp;following&nbsp;statement&nbsp;builds&nbsp;a&nbsp;system&nbsp;with<br>
+topmedium&nbsp;and&nbsp;bottommedium&nbsp;as&nbsp;top&nbsp;and&nbsp;bottom&nbsp;mediums<br>
+respectively,&nbsp;and&nbsp;two&nbsp;layers,&nbsp;one&nbsp;of&nbsp;layer1&nbsp;10&nbsp;units&nbsp;thick&nbsp;and<br>
+another&nbsp;of&nbsp;layer2&nbsp;15&nbsp;units&nbsp;thick.&nbsp;The&nbsp;thickness&nbsp;in&nbsp;the&nbsp;same<br>
+units&nbsp;as&nbsp;the&nbsp;wavelengths.<br>
+system&nbsp;=&nbsp;<a href="#Multilayer">Multilayer</a>([<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topmedium,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[layer1,&nbsp;10],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[layer2,&nbsp;15],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottommedium])</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-calcMatrices"><strong>calcMatrices</strong></a>(self, layerIndexes<font color="#909090">=[]</font>)</dt><dd><tt>This&nbsp;method&nbsp;calculates&nbsp;the&nbsp;characteristic&nbsp;matrix&nbsp;of&nbsp;the<br>
+specified&nbsp;layers.<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;the&nbsp;top&nbsp;and&nbsp;bottom&nbsp;medium&nbsp;do&nbsp;not&nbsp;have&nbsp;characteristic<br>
+matrices.&nbsp;An&nbsp;error&nbsp;will&nbsp;be&nbsp;raised&nbsp;if&nbsp;you&nbsp;try&nbsp;to&nbsp;calculate&nbsp;their<br>
+characteristic&nbsp;matrices.<br>
+&nbsp;<br>
+The&nbsp;matrix&nbsp;is&nbsp;stored&nbsp;in&nbsp;a&nbsp;numpy.ndarray&nbsp;variable.&nbsp;Note&nbsp;that&nbsp;this<br>
+method&nbsp;does&nbsp;not&nbsp;return&nbsp;anything,&nbsp;it&nbsp;just&nbsp;stores&nbsp;the&nbsp;calculated<br>
+matrices&nbsp;in&nbsp;the&nbsp;corresponding&nbsp;field&nbsp;of&nbsp;the&nbsp;multilayer.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+layerIndexes&nbsp;:&nbsp;list,&nbsp;optional<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;the&nbsp;indices&nbsp;of&nbsp;the&nbsp;layers&nbsp;whose&nbsp;characteristic<br>
+&nbsp;&nbsp;&nbsp;&nbsp;matrix&nbsp;should&nbsp;be&nbsp;calculated.&nbsp;If&nbsp;the&nbsp;list&nbsp;is&nbsp;empty,&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;matrices&nbsp;of&nbsp;all&nbsp;the&nbsp;layers&nbsp;(except&nbsp;top&nbsp;and&nbsp;bottom&nbsp;mediums)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;will&nbsp;be&nbsp;calculated.&nbsp;Same&nbsp;if&nbsp;the&nbsp;parameter&nbsp;is&nbsp;skipped.<br>
+&nbsp;<br>
+See&nbsp;Also<br>
+--------<br>
+getMatrix</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-calcPositions"><strong>calcPositions</strong></a>(self)</dt><dd><tt>This&nbsp;method&nbsp;calculates&nbsp;the&nbsp;positions&nbsp;of&nbsp;each&nbsp;layer&nbsp;along&nbsp;the<br>
+z&nbsp;axis&nbsp;(the&nbsp;direction&nbsp;perpendicular&nbsp;to&nbsp;the&nbsp;interfaces&nbsp;between<br>
+layers.<br>
+&nbsp;<br>
+The&nbsp;position&nbsp;of&nbsp;a&nbsp;layer&nbsp;corresponds&nbsp;to&nbsp;the&nbsp;z&nbsp;coordinate&nbsp;of&nbsp;its<br>
+lower&nbsp;surface.&nbsp;The&nbsp;origin&nbsp;is&nbsp;located&nbsp;at&nbsp;the&nbsp;interface&nbsp;between<br>
+the&nbsp;last&nbsp;layer&nbsp;and&nbsp;the&nbsp;bottom&nbsp;medium.&nbsp;Therefore,&nbsp;the&nbsp;position&nbsp;of<br>
+the&nbsp;bottom&nbsp;medium&nbsp;is&nbsp;-infinity,&nbsp;the&nbsp;position&nbsp;of&nbsp;the&nbsp;last&nbsp;layer<br>
+is&nbsp;0,&nbsp;the&nbsp;one&nbsp;above&nbsp;is&nbsp;at&nbsp;0&nbsp;+&nbsp;the&nbsp;thickness&nbsp;of&nbsp;the&nbsp;one&nbsp;below,<br>
+and&nbsp;so&nbsp;on.<br>
+&nbsp;<br>
+This&nbsp;method&nbsp;does&nbsp;not&nbsp;return&nbsp;anything,&nbsp;it&nbsp;just&nbsp;sets&nbsp;the&nbsp;position<br>
+of&nbsp;each&nbsp;layer.&nbsp;It&nbsp;is&nbsp;automatically&nbsp;executed&nbsp;during&nbsp;instantiation<br>
+of&nbsp;a&nbsp;multilayer.&nbsp;The&nbsp;user&nbsp;typically&nbsp;does&nbsp;not&nbsp;need&nbsp;to&nbsp;call&nbsp;it.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-calculateFx"><strong>calculateFx</strong></a>(self, z, wlength, angle, index<font color="#909090">=0</font>)</dt><dd><tt>Calculates&nbsp;Fx(z;&nbsp;lambda,&nbsp;theta)&nbsp;of&nbsp;the&nbsp;multilayer.<br>
+&nbsp;<br>
+The&nbsp;direction&nbsp;x&nbsp;is&nbsp;parallel&nbsp;to&nbsp;both&nbsp;the&nbsp;layer&nbsp;interfaces&nbsp;and&nbsp;the<br>
+plane&nbsp;of&nbsp;incidence&nbsp;of&nbsp;the&nbsp;light&nbsp;(or&nbsp;the&nbsp;direction&nbsp;of&nbsp;the<br>
+intersection&nbsp;between&nbsp;plane&nbsp;of&nbsp;incidence&nbsp;and&nbsp;interfaces).&nbsp;The<br>
+plane&nbsp;of&nbsp;incidence&nbsp;is&nbsp;always&nbsp;perpendicular&nbsp;to&nbsp;the&nbsp;interfaces.<br>
+The&nbsp;direction&nbsp;z&nbsp;is&nbsp;perpendicular&nbsp;to&nbsp;the&nbsp;interfaces.<br>
+&nbsp;<br>
+The&nbsp;state&nbsp;of&nbsp;the&nbsp;multilayer&nbsp;will&nbsp;be&nbsp;changed&nbsp;according&nbsp;to&nbsp;the<br>
+parameters&nbsp;passed&nbsp;to&nbsp;the&nbsp;method&nbsp;and&nbsp;then&nbsp;F(z)&nbsp;will&nbsp;be<br>
+calculated.<br>
+&nbsp;<br>
+Fx&nbsp;is&nbsp;defined&nbsp;only&nbsp;for&nbsp;TM&nbsp;waves.&nbsp;If&nbsp;the&nbsp;multilayer&nbsp;is&nbsp;currently<br>
+in&nbsp;TE,&nbsp;it&nbsp;will&nbsp;be&nbsp;changed&nbsp;to&nbsp;TM&nbsp;to&nbsp;perform&nbsp;the&nbsp;calculations.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+z&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;z&nbsp;coordinate&nbsp;of&nbsp;the&nbsp;emitting&nbsp;dipole.<br>
+wlength&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;wavelength&nbsp;of&nbsp;the&nbsp;light&nbsp;across&nbsp;the&nbsp;multilayer&nbsp;In&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;same&nbsp;units&nbsp;as&nbsp;in&nbsp;the&nbsp;file&nbsp;from&nbsp;which&nbsp;the&nbsp;refractive<br>
+&nbsp;&nbsp;&nbsp;&nbsp;indices&nbsp;were&nbsp;loaded.<br>
+angle&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;propagation&nbsp;angle&nbsp;in&nbsp;radians<br>
+index&nbsp;:&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;index&nbsp;of&nbsp;the&nbsp;layer&nbsp;where&nbsp;we&nbsp;are&nbsp;fixing&nbsp;the&nbsp;propagation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;complex128<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;Fx(z,&nbsp;lambda,&nbsp;angle)</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-calculateFy"><strong>calculateFy</strong></a>(self, z, wlength, angle, index<font color="#909090">=0</font>)</dt><dd><tt>Calculates&nbsp;Fy(z)&nbsp;of&nbsp;the&nbsp;multilayer.<br>
+&nbsp;<br>
+The&nbsp;direction&nbsp;y&nbsp;is&nbsp;parallel&nbsp;to&nbsp;the&nbsp;layer&nbsp;interfaces&nbsp;and<br>
+perpendicular&nbsp;to&nbsp;the&nbsp;plane&nbsp;of&nbsp;incidence.&nbsp;The&nbsp;plane&nbsp;of&nbsp;incidence<br>
+is&nbsp;always&nbsp;perpendicular&nbsp;to&nbsp;the&nbsp;interfaces.&nbsp;The&nbsp;direction&nbsp;z&nbsp;is<br>
+perpendicular&nbsp;to&nbsp;the&nbsp;interfaces.<br>
+&nbsp;<br>
+The&nbsp;state&nbsp;of&nbsp;the&nbsp;multilayer&nbsp;will&nbsp;be&nbsp;changed&nbsp;according&nbsp;to&nbsp;the<br>
+parameters&nbsp;passed&nbsp;to&nbsp;the&nbsp;method&nbsp;and&nbsp;then&nbsp;F(z)&nbsp;will&nbsp;be<br>
+calculated.<br>
+&nbsp;<br>
+Fy&nbsp;is&nbsp;defined&nbsp;only&nbsp;for&nbsp;TE&nbsp;waves.&nbsp;If&nbsp;the&nbsp;multilayer&nbsp;is&nbsp;currently<br>
+in&nbsp;TM,&nbsp;it&nbsp;will&nbsp;be&nbsp;changed&nbsp;to&nbsp;TE&nbsp;to&nbsp;perform&nbsp;the&nbsp;calculations.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+z&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;z&nbsp;coordinate&nbsp;of&nbsp;the&nbsp;emitting&nbsp;dipole.<br>
+wlength&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;wavelength&nbsp;of&nbsp;the&nbsp;light&nbsp;across&nbsp;the&nbsp;multilayer&nbsp;In&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;same&nbsp;units&nbsp;as&nbsp;in&nbsp;the&nbsp;file&nbsp;from&nbsp;which&nbsp;the&nbsp;refractive&nbsp;indices<br>
+&nbsp;&nbsp;&nbsp;&nbsp;were&nbsp;loaded.<br>
+angle&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;propagation&nbsp;angle&nbsp;in&nbsp;radians<br>
+index&nbsp;:&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;index&nbsp;of&nbsp;the&nbsp;layer&nbsp;where&nbsp;we&nbsp;are&nbsp;fixing&nbsp;the&nbsp;propagation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;complex128<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;Fy(z,&nbsp;lambda,&nbsp;angle)</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-calculateFz"><strong>calculateFz</strong></a>(self, z, wlength, angle, index<font color="#909090">=0</font>)</dt><dd><tt>Calculates&nbsp;Fz(z)&nbsp;of&nbsp;the&nbsp;multilayer.<br>
+&nbsp;<br>
+The&nbsp;direction&nbsp;z&nbsp;is&nbsp;perpendicular&nbsp;to&nbsp;the&nbsp;interfaces.<br>
+&nbsp;<br>
+The&nbsp;state&nbsp;of&nbsp;the&nbsp;multilayer&nbsp;will&nbsp;be&nbsp;changed&nbsp;according&nbsp;to&nbsp;the<br>
+parameters&nbsp;passed&nbsp;to&nbsp;the&nbsp;method&nbsp;and&nbsp;then&nbsp;F(z)&nbsp;will&nbsp;be<br>
+calculated.<br>
+&nbsp;<br>
+Fz&nbsp;is&nbsp;defined&nbsp;only&nbsp;for&nbsp;TM&nbsp;waves.&nbsp;If&nbsp;the&nbsp;multilayer&nbsp;is&nbsp;currently<br>
+in&nbsp;TE,&nbsp;it&nbsp;will&nbsp;be&nbsp;changed&nbsp;to&nbsp;TM&nbsp;to&nbsp;perform&nbsp;the&nbsp;calculations.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+z&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;z&nbsp;coordinate&nbsp;of&nbsp;the&nbsp;emitting&nbsp;dipole.<br>
+wlength&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;wavelength&nbsp;of&nbsp;the&nbsp;light&nbsp;across&nbsp;the&nbsp;multilayer.&nbsp;In&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;same&nbsp;units&nbsp;as&nbsp;in&nbsp;the&nbsp;file&nbsp;from&nbsp;which&nbsp;the&nbsp;refractive<br>
+&nbsp;&nbsp;&nbsp;&nbsp;indices&nbsp;were&nbsp;loaded.<br>
+angle&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;propagation&nbsp;angle&nbsp;in&nbsp;radians.<br>
+index&nbsp;:&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;index&nbsp;of&nbsp;the&nbsp;layer&nbsp;where&nbsp;we&nbsp;are&nbsp;fixing&nbsp;the&nbsp;propagation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;complex128<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;Fz(z,&nbsp;lambda,&nbsp;angle)</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-getCharMatrixDownUp"><strong>getCharMatrixDownUp</strong></a>(self)</dt><dd><tt>This&nbsp;method&nbsp;returns&nbsp;the&nbsp;characteristic&nbsp;matrix&nbsp;in&nbsp;the&nbsp;down-up<br>
+direction<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;numpy.ndarray<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;characteristic&nbsp;matrix&nbsp;of&nbsp;the&nbsp;system&nbsp;in&nbsp;the&nbsp;down-top<br>
+&nbsp;&nbsp;&nbsp;&nbsp;direction&nbsp;of&nbsp;propagation.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-getCharMatrixUpDown"><strong>getCharMatrixUpDown</strong></a>(self)</dt><dd><tt>This&nbsp;method&nbsp;returns&nbsp;the&nbsp;characteristic&nbsp;matrix&nbsp;in&nbsp;the&nbsp;up-down<br>
+direction.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;numpy.ndarray<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;characteristic&nbsp;matrix&nbsp;of&nbsp;the&nbsp;system&nbsp;in&nbsp;the&nbsp;top-down<br>
+&nbsp;&nbsp;&nbsp;&nbsp;direction&nbsp;of&nbsp;propagation.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-getCoefficientsDownUp"><strong>getCoefficientsDownUp</strong></a>(self)</dt><dd><tt>This&nbsp;method&nbsp;returns&nbsp;a&nbsp;dictionary&nbsp;with&nbsp;the&nbsp;reflection&nbsp;and<br>
+transmission&nbsp;coefficients,&nbsp;the&nbsp;reflectance&nbsp;and&nbsp;the&nbsp;transmittance<br>
+of&nbsp;the&nbsp;multilayer&nbsp;system.in&nbsp;the&nbsp;down-up&nbsp;direction&nbsp;of<br>
+propagation.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;dictionary<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;dictionary&nbsp;with&nbsp;the&nbsp;reflection&nbsp;and&nbsp;transmission<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coefficients,&nbsp;the&nbsp;reflectance&nbsp;and&nbsp;the&nbsp;transmittance&nbsp;of&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;multilayer&nbsp;system.&nbsp;The&nbsp;keys&nbsp;are&nbsp;{'r',&nbsp;'t',&nbsp;'R',&nbsp;'T'}.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-getCoefficientsUpDown"><strong>getCoefficientsUpDown</strong></a>(self)</dt><dd><tt>This&nbsp;method&nbsp;returns&nbsp;a&nbsp;dictionary&nbsp;with&nbsp;the&nbsp;reflection&nbsp;and<br>
+transmission&nbsp;coefficients,&nbsp;the&nbsp;reflectance&nbsp;and&nbsp;the&nbsp;transmittance<br>
+of&nbsp;the&nbsp;multilayer&nbsp;system.in&nbsp;the&nbsp;up-down&nbsp;direction&nbsp;of<br>
+propagation.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;dictionary<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;dictionary&nbsp;with&nbsp;the&nbsp;reflection&nbsp;and&nbsp;transmission<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coefficients,&nbsp;the&nbsp;reflectance&nbsp;and&nbsp;the&nbsp;transmittance&nbsp;of&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;multilayer&nbsp;system.&nbsp;The&nbsp;keys&nbsp;are&nbsp;{'r',&nbsp;'t',&nbsp;'R',&nbsp;'T'}.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-getIndexAtPos"><strong>getIndexAtPos</strong></a>(self, z)</dt><dd><tt>Returns&nbsp;the&nbsp;index&nbsp;of&nbsp;the&nbsp;layer&nbsp;within&nbsp;which&nbsp;z&nbsp;lies.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+z&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;z&nbsp;coordinate.&nbsp;z&nbsp;=&nbsp;0&nbsp;is&nbsp;at&nbsp;the&nbsp;surface&nbsp;between&nbsp;the&nbsp;bottom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;medium&nbsp;and&nbsp;the&nbsp;next&nbsp;layer.&nbsp;The&nbsp;position&nbsp;of&nbsp;a&nbsp;layer&nbsp;is&nbsp;the&nbsp;z<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coordinate&nbsp;of&nbsp;its&nbsp;lower&nbsp;interface.&nbsp;The&nbsp;units&nbsp;are&nbsp;the&nbsp;same&nbsp;as<br>
+&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;thickness&nbsp;and&nbsp;wavelengths.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;index&nbsp;of&nbsp;the&nbsp;layer&nbsp;within&nbsp;which&nbsp;z&nbsp;lies.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-getMatrix"><strong>getMatrix</strong></a>(self, layerIndex)</dt><dd><tt>This&nbsp;method&nbsp;returns&nbsp;the&nbsp;characteristic&nbsp;matrix&nbsp;of&nbsp;a&nbsp;given&nbsp;layer<br>
+in&nbsp;the&nbsp;stack.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+layerIndex&nbsp;:&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;index&nbsp;of&nbsp;the&nbsp;layer.&nbsp;Index&nbsp;0&nbsp;corresponds&nbsp;to&nbsp;the&nbsp;upper<br>
+&nbsp;&nbsp;&nbsp;&nbsp;medium.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;numpy.ndarray<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;characteristic&nbsp;matrix&nbsp;of&nbsp;the&nbsp;layer&nbsp;with&nbsp;the&nbsp;given&nbsp;index.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-getMinMaxWlength"><strong>getMinMaxWlength</strong></a>(self)</dt><dd><tt>This&nbsp;method&nbsp;returns&nbsp;a&nbsp;tuple&nbsp;(min,&nbsp;max)&nbsp;with&nbsp;the&nbsp;shortest&nbsp;and<br>
+longest&nbsp;wavelengths&nbsp;for&nbsp;which&nbsp;the&nbsp;refractive&nbsp;index&nbsp;can&nbsp;be<br>
+calculated&nbsp;in&nbsp;all&nbsp;the&nbsp;layers&nbsp;forming&nbsp;the&nbsp;multilayer&nbsp;system.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;tuple<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;tuple&nbsp;containing&nbsp;the&nbsp;minimum&nbsp;and&nbsp;maximum&nbsp;wavelengths<br>
+&nbsp;&nbsp;&nbsp;&nbsp;within&nbsp;which&nbsp;the&nbsp;refractive&nbsp;index&nbsp;can&nbsp;be&nbsp;interpolated&nbsp;in&nbsp;all<br>
+&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;mediums&nbsp;of&nbsp;the&nbsp;multilayer.&nbsp;In&nbsp;the&nbsp;same&nbsp;units&nbsp;as&nbsp;in&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;file&nbsp;from&nbsp;which&nbsp;the&nbsp;refractive&nbsp;indices&nbsp;were&nbsp;loaded.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-getPolarization"><strong>getPolarization</strong></a>(self)</dt><dd><tt>Returns&nbsp;the&nbsp;polarization&nbsp;of&nbsp;the&nbsp;light&nbsp;going&nbsp;through&nbsp;the<br>
+multilayer&nbsp;system.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;polarization&nbsp;of&nbsp;the&nbsp;ligth&nbsp;going&nbsp;across&nbsp;the&nbsp;system.&nbsp;It<br>
+&nbsp;&nbsp;&nbsp;&nbsp;may&nbsp;be&nbsp;"TE"&nbsp;or&nbsp;"TM".</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-getPosition"><strong>getPosition</strong></a>(self, layerIndex)</dt><dd><tt>This&nbsp;method&nbsp;returns&nbsp;the&nbsp;position&nbsp;of&nbsp;the&nbsp;layer&nbsp;with&nbsp;index<br>
+'layerIndex'.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+layerIndex&nbsp;:&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;index&nbsp;of&nbsp;the&nbsp;layer.&nbsp;Index&nbsp;0&nbsp;corresponds&nbsp;to&nbsp;the&nbsp;top<br>
+&nbsp;&nbsp;&nbsp;&nbsp;medium.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;position&nbsp;of&nbsp;the&nbsp;layer,&nbsp;which&nbsp;corresponds&nbsp;to&nbsp;the&nbsp;z<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coordinate&nbsp;of&nbsp;its&nbsp;lower&nbsp;surface.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-getPropAngle"><strong>getPropAngle</strong></a>(self, index)</dt><dd><tt>Returns&nbsp;the&nbsp;propagation&nbsp;angle&nbsp;of&nbsp;the&nbsp;light&nbsp;in&nbsp;the&nbsp;layer&nbsp;with&nbsp;the<br>
+given&nbsp;index.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+index&nbsp;:&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;index&nbsp;of&nbsp;the&nbsp;layer.&nbsp;Index&nbsp;0&nbsp;corresponds&nbsp;to&nbsp;the&nbsp;upper<br>
+&nbsp;&nbsp;&nbsp;&nbsp;medium.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;complex<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;propagation&nbsp;angle.&nbsp;It&nbsp;may&nbsp;be&nbsp;complex&nbsp;if&nbsp;there&nbsp;has&nbsp;been<br>
+&nbsp;&nbsp;&nbsp;&nbsp;total&nbsp;internal&nbsp;reflection&nbsp;in&nbsp;a&nbsp;lower&nbsp;interface.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-getRefrIndex"><strong>getRefrIndex</strong></a>(self, index)</dt><dd><tt>Returns&nbsp;the&nbsp;complex&nbsp;refractive&nbsp;index&nbsp;at&nbsp;the&nbsp;current&nbsp;wavelength<br>
+within&nbsp;the&nbsp;layer&nbsp;with&nbsp;the&nbsp;given&nbsp;index.<br>
+&nbsp;<br>
+For&nbsp;example,&nbsp;multilayer.<a href="#Multilayer-getRefrIndex">getRefrIndex</a>(0)&nbsp;would&nbsp;return&nbsp;the&nbsp;complex<br>
+refractive&nbsp;index&nbsp;at&nbsp;400&nbsp;units&nbsp;of&nbsp;length&nbsp;(nm&nbsp;typically)&nbsp;in&nbsp;the<br>
+top&nbsp;medium.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+index&nbsp;:&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;index&nbsp;of&nbsp;the&nbsp;layer.&nbsp;Index&nbsp;0&nbsp;corresponds&nbsp;to&nbsp;the&nbsp;upper<br>
+&nbsp;&nbsp;&nbsp;&nbsp;medium.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;complex128<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;complex&nbsp;refractive&nbsp;index&nbsp;for&nbsp;the&nbsp;given&nbsp;wavelength&nbsp;at&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;medium&nbsp;of&nbsp;given&nbsp;index.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-getThickness"><strong>getThickness</strong></a>(self, layerIndex)</dt><dd><tt>This&nbsp;method&nbsp;returns&nbsp;the&nbsp;thickness&nbsp;of&nbsp;the&nbsp;layer&nbsp;with&nbsp;index<br>
+'layerindex'.&nbsp;Index&nbsp;0&nbsp;corresponds&nbsp;to&nbsp;the&nbsp;top&nbsp;medium.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+layerIndex&nbsp;:&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;index&nbsp;of&nbsp;the&nbsp;layer.&nbsp;Index&nbsp;0&nbsp;corresponds&nbsp;to&nbsp;the&nbsp;top<br>
+&nbsp;&nbsp;&nbsp;&nbsp;medium.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;thickness&nbsp;of&nbsp;the&nbsp;layer.&nbsp;In&nbsp;the&nbsp;same&nbsp;units&nbsp;as&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;wavelengths.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-getWlength"><strong>getWlength</strong></a>(self)</dt><dd><tt>This&nbsp;method&nbsp;returns&nbsp;the&nbsp;current&nbsp;wavelength&nbsp;of&nbsp;the&nbsp;light&nbsp;going<br>
+through&nbsp;the&nbsp;multilayer.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;wavelength&nbsp;of&nbsp;the&nbsp;light&nbsp;going&nbsp;across&nbsp;the&nbsp;system.&nbsp;In&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;same&nbsp;units&nbsp;as&nbsp;in&nbsp;the&nbsp;file&nbsp;from&nbsp;which&nbsp;the&nbsp;refractive&nbsp;indices<br>
+&nbsp;&nbsp;&nbsp;&nbsp;were&nbsp;loaded.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-numLayers"><strong>numLayers</strong></a>(self)</dt><dd><tt>This&nbsp;method&nbsp;returns&nbsp;the&nbsp;number&nbsp;of&nbsp;layers&nbsp;of&nbsp;the&nbsp;multilayer<br>
+system&nbsp;including&nbsp;the&nbsp;top&nbsp;and&nbsp;bottom&nbsp;mediums.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+out&nbsp;:&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;layers&nbsp;of&nbsp;the&nbsp;multilayer&nbsp;system,&nbsp;including&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;top&nbsp;and&nbsp;bottom&nbsp;mediums.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-setPolarization"><strong>setPolarization</strong></a>(self, polarization)</dt><dd><tt>Sets&nbsp;the&nbsp;polarization&nbsp;of&nbsp;the&nbsp;light&nbsp;going&nbsp;through&nbsp;the&nbsp;multilayer<br>
+system.<br>
+&nbsp;<br>
+Since&nbsp;the&nbsp;characteristic&nbsp;matrices&nbsp;will&nbsp;change,&nbsp;they&nbsp;will&nbsp;be<br>
+reset&nbsp;to&nbsp;None&nbsp;in&nbsp;order&nbsp;to&nbsp;force&nbsp;the&nbsp;user&nbsp;to&nbsp;calculate&nbsp;them&nbsp;again<br>
+with&nbsp;the&nbsp;corresponding&nbsp;methods.&nbsp;The&nbsp;same&nbsp;goes&nbsp;for&nbsp;the<br>
+coefficients.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+polarization&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;polarization&nbsp;of&nbsp;the&nbsp;ligth&nbsp;going&nbsp;across&nbsp;the&nbsp;system.&nbsp;It<br>
+&nbsp;&nbsp;&nbsp;&nbsp;may&nbsp;be&nbsp;"te"&nbsp;or&nbsp;"tm",&nbsp;case&nbsp;insensitive.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-setPropAngle"><strong>setPropAngle</strong></a>(self, angle, index<font color="#909090">=0</font>)</dt><dd><tt>Sets&nbsp;the&nbsp;propagation&nbsp;angle&nbsp;of&nbsp;light&nbsp;in&nbsp;the&nbsp;layer&nbsp;of&nbsp;given<br>
+index.<br>
+&nbsp;<br>
+The&nbsp;propagation&nbsp;angle&nbsp;in&nbsp;all&nbsp;other&nbsp;layers&nbsp;is&nbsp;automatically<br>
+calculated&nbsp;using&nbsp;Snell's&nbsp;Law.&nbsp;The&nbsp;angle&nbsp;must&nbsp;be&nbsp;given&nbsp;in<br>
+radians.<br>
+&nbsp;<br>
+If&nbsp;a&nbsp;list&nbsp;is&nbsp;given&nbsp;instead&nbsp;of&nbsp;a&nbsp;single&nbsp;angle,&nbsp;the&nbsp;angles&nbsp;will<br>
+be&nbsp;set&nbsp;to&nbsp;those&nbsp;found&nbsp;in&nbsp;the&nbsp;list&nbsp;following&nbsp;the&nbsp;natural&nbsp;order<br>
+(first&nbsp;angle&nbsp;to&nbsp;top&nbsp;medium,&nbsp;last&nbsp;angle&nbsp;to&nbsp;bottom&nbsp;medium).&nbsp;Use<br>
+of&nbsp;this&nbsp;feature&nbsp;is&nbsp;strongly&nbsp;discouraged.&nbsp;Use&nbsp;it&nbsp;only&nbsp;if&nbsp;you<br>
+know&nbsp;what&nbsp;you&nbsp;are&nbsp;doing.<br>
+&nbsp;<br>
+Since&nbsp;the&nbsp;characteristic&nbsp;matrices&nbsp;and&nbsp;coefficients&nbsp;must&nbsp;be<br>
+recalculated,&nbsp;they&nbsp;will&nbsp;be&nbsp;reset&nbsp;to&nbsp;None&nbsp;to&nbsp;force&nbsp;the&nbsp;user&nbsp;to<br>
+execute&nbsp;again&nbsp;the&nbsp;relevant&nbsp;methods&nbsp;for&nbsp;its&nbsp;calculation.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+angle&nbsp;:&nbsp;float&nbsp;or&nbsp;complex&nbsp;or&nbsp;list&nbsp;of&nbsp;floats&nbsp;or&nbsp;complexes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Propagation&nbsp;angle&nbsp;in&nbsp;radians.&nbsp;Use&nbsp;of&nbsp;a&nbsp;list&nbsp;instead&nbsp;of&nbsp;a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;single&nbsp;angle&nbsp;is&nbsp;strongly&nbsp;discouraged.&nbsp;Use&nbsp;it&nbsp;only&nbsp;if&nbsp;you<br>
+&nbsp;&nbsp;&nbsp;&nbsp;know&nbsp;what&nbsp;you&nbsp;are&nbsp;doing.<br>
+index&nbsp;:&nbsp;int,&nbsp;optional<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;index&nbsp;of&nbsp;the&nbsp;layer&nbsp;at&nbsp;which&nbsp;light&nbsp;propagates&nbsp;with&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;given&nbsp;angle.&nbsp;If&nbsp;not&nbsp;specified,&nbsp;it&nbsp;will&nbsp;be&nbsp;assumed&nbsp;that&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle&nbsp;corresponds&nbsp;to&nbsp;the&nbsp;propagation&nbsp;in&nbsp;the&nbsp;upper&nbsp;medium<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(index&nbsp;=&nbsp;0).</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-setThickness"><strong>setThickness</strong></a>(self, thickness, layerIndex)</dt><dd><tt>This&nbsp;method&nbsp;changes&nbsp;the&nbsp;thickness&nbsp;of&nbsp;the&nbsp;layer&nbsp;with&nbsp;index<br>
+'layerIndex'&nbsp;to&nbsp;a&nbsp;new&nbsp;value.<br>
+&nbsp;<br>
+Index&nbsp;0&nbsp;corresponds&nbsp;to&nbsp;the&nbsp;top&nbsp;medium.&nbsp;The&nbsp;positions&nbsp;of&nbsp;the<br>
+layers&nbsp;above&nbsp;the&nbsp;one&nbsp;being&nbsp;changed&nbsp;will&nbsp;be&nbsp;recalculated<br>
+accordingly.<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;the&nbsp;thickness&nbsp;of&nbsp;the&nbsp;top&nbsp;and&nbsp;bottom&nbsp;mediums&nbsp;cannot&nbsp;be<br>
+changed&nbsp;because&nbsp;they&nbsp;are&nbsp;infinite.<br>
+&nbsp;<br>
+The&nbsp;characteristic&nbsp;matrices&nbsp;of&nbsp;the&nbsp;system&nbsp;and&nbsp;the&nbsp;coefficients<br>
+will&nbsp;be&nbsp;reset&nbsp;to&nbsp;zero&nbsp;because&nbsp;they&nbsp;must&nbsp;be&nbsp;recalculated&nbsp;after<br>
+the&nbsp;thickness&nbsp;change.&nbsp;However,&nbsp;only&nbsp;the&nbsp;individual&nbsp;matrix&nbsp;of<br>
+the&nbsp;layer&nbsp;being&nbsp;modified&nbsp;will&nbsp;be&nbsp;reset&nbsp;to&nbsp;zero.&nbsp;The&nbsp;individual<br>
+matrices&nbsp;of&nbsp;all&nbsp;other&nbsp;layers&nbsp;remain&nbsp;the&nbsp;same.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+thickness&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;thickness&nbsp;of&nbsp;the&nbsp;layer.&nbsp;In&nbsp;the&nbsp;same&nbsp;units&nbsp;as&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;wavelengths.<br>
+layerIndex&nbsp;:&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;index&nbsp;of&nbsp;the&nbsp;layer.&nbsp;Index&nbsp;0&nbsp;corresponds&nbsp;to&nbsp;the&nbsp;top<br>
+&nbsp;&nbsp;&nbsp;&nbsp;medium.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-setWlength"><strong>setWlength</strong></a>(self, wavelength, rilist<font color="#909090">=None</font>)</dt><dd><tt>This&nbsp;method&nbsp;sets&nbsp;the&nbsp;wavelength&nbsp;of&nbsp;the&nbsp;light&nbsp;going&nbsp;through&nbsp;the<br>
+multilayer&nbsp;system&nbsp;and&nbsp;sets&nbsp;the&nbsp;actual&nbsp;refractive&nbsp;index&nbsp;in&nbsp;each<br>
+layer.<br>
+&nbsp;<br>
+Since&nbsp;changing&nbsp;the&nbsp;working&nbsp;wavelength&nbsp;also&nbsp;changes&nbsp;the<br>
+refractive&nbsp;index&nbsp;in&nbsp;effect,&nbsp;the&nbsp;propagation&nbsp;angles&nbsp;must&nbsp;be<br>
+recalculated.&nbsp;For&nbsp;that&nbsp;reason,&nbsp;this&nbsp;method&nbsp;will&nbsp;reset&nbsp;the<br>
+propagation&nbsp;angle&nbsp;in&nbsp;all&nbsp;the&nbsp;layers&nbsp;to&nbsp;'None'.&nbsp;That&nbsp;will&nbsp;force<br>
+the&nbsp;user&nbsp;to&nbsp;execute&nbsp;again&nbsp;the&nbsp;<a href="#Multilayer-setPropAngle">setPropAngle</a>()&nbsp;method.<br>
+Otherwise&nbsp;the&nbsp;calculation&nbsp;of&nbsp;the&nbsp;characteristic&nbsp;matrices&nbsp;will<br>
+rise&nbsp;an&nbsp;error.<br>
+&nbsp;<br>
+Also,&nbsp;the&nbsp;characteristic&nbsp;matrices&nbsp;must&nbsp;be&nbsp;recalculated.<br>
+Therefore,&nbsp;they&nbsp;will&nbsp;also&nbsp;be&nbsp;reset&nbsp;to&nbsp;None&nbsp;along&nbsp;with&nbsp;the<br>
+coefficients.<br>
+&nbsp;<br>
+Optionally,&nbsp;the&nbsp;refractive&nbsp;indices&nbsp;of&nbsp;the&nbsp;layers&nbsp;can&nbsp;be<br>
+passed&nbsp;explicitly&nbsp;with&nbsp;a&nbsp;list.&nbsp;This&nbsp;avoids&nbsp;calculating&nbsp;each<br>
+refractive&nbsp;index&nbsp;using&nbsp;the&nbsp;interpolator.&nbsp;Using&nbsp;this&nbsp;is<br>
+dangerous&nbsp;and&nbsp;discouraged.&nbsp;Use&nbsp;it&nbsp;only&nbsp;if&nbsp;you&nbsp;know&nbsp;what&nbsp;you&nbsp;are<br>
+doing.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+wavelength&nbsp;:&nbsp;float<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;wavelength&nbsp;of&nbsp;the&nbsp;light&nbsp;going&nbsp;across&nbsp;the&nbsp;system.&nbsp;In&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;same&nbsp;units&nbsp;as&nbsp;in&nbsp;the&nbsp;file&nbsp;from&nbsp;which&nbsp;the&nbsp;refractive&nbsp;indices<br>
+&nbsp;&nbsp;&nbsp;&nbsp;were&nbsp;loaded.<br>
+rilist&nbsp;:&nbsp;list,&nbsp;optional<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;containing&nbsp;the&nbsp;refractive&nbsp;index&nbsp;of&nbsp;each&nbsp;layer&nbsp;at&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;wavelength&nbsp;being&nbsp;set.&nbsp;The&nbsp;items&nbsp;must&nbsp;be&nbsp;ordered,&nbsp;the&nbsp;first<br>
+&nbsp;&nbsp;&nbsp;&nbsp;one&nbsp;corresponding&nbsp;to&nbsp;the&nbsp;top&nbsp;layer&nbsp;and&nbsp;the&nbsp;last&nbsp;one&nbsp;to&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bottom&nbsp;layer.&nbsp;Remember&nbsp;that&nbsp;the&nbsp;refractive&nbsp;indices&nbsp;are<br>
+&nbsp;&nbsp;&nbsp;&nbsp;complex&nbsp;numbers.&nbsp;If&nbsp;you&nbsp;pass&nbsp;a&nbsp;real&nbsp;number,&nbsp;it&nbsp;will&nbsp;be<br>
+&nbsp;&nbsp;&nbsp;&nbsp;converted&nbsp;to&nbsp;numpy.complex128.&nbsp;The&nbsp;use&nbsp;of&nbsp;this&nbsp;option&nbsp;is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;discouraged.&nbsp;Use&nbsp;it&nbsp;only&nbsp;if&nbsp;you&nbsp;know&nbsp;what&nbsp;you&nbsp;are&nbsp;doing.</tt></dd></dl>
+
+<dl><dt><a name="Multilayer-updateCharMatrix"><strong>updateCharMatrix</strong></a>(self)</dt><dd><tt>This&nbsp;method&nbsp;calculates&nbsp;the&nbsp;characteristic&nbsp;matrix&nbsp;of&nbsp;the<br>
+multilayer&nbsp;in&nbsp;the&nbsp;up-down&nbsp;direction&nbsp;and&nbsp;the&nbsp;down-up&nbsp;direction.<br>
+Then&nbsp;the&nbsp;coefficients&nbsp;r,&nbsp;t,&nbsp;R&nbsp;and&nbsp;T&nbsp;(reflection&nbsp;coefficient,<br>
+transmission&nbsp;coefficient,&nbsp;reflectance&nbsp;and&nbsp;transmittance,<br>
+respectively)&nbsp;are&nbsp;calculated&nbsp;from&nbsp;the&nbsp;characteristic&nbsp;matrix.<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;both&nbsp;the&nbsp;reflection&nbsp;and&nbsp;transmission&nbsp;coefficients<br>
+refer&nbsp;to&nbsp;the&nbsp;ratios&nbsp;between&nbsp;reflected&nbsp;(transmitted)&nbsp;ELECTRIC<br>
+fields&nbsp;to&nbsp;the&nbsp;incident&nbsp;ELECTRIC&nbsp;field&nbsp;regardless&nbsp;of&nbsp;the<br>
+polarization&nbsp;of&nbsp;the&nbsp;wave&nbsp;(TE&nbsp;or&nbsp;TM).<br>
+&nbsp;<br>
+The&nbsp;coefficients&nbsp;are&nbsp;calculated&nbsp;for&nbsp;both&nbsp;possible&nbsp;directions&nbsp;of<br>
+propagation&nbsp;(top-down&nbsp;and&nbsp;down-top).&nbsp;In&nbsp;the&nbsp;former&nbsp;case,&nbsp;the&nbsp;top<br>
+medium&nbsp;is&nbsp;considered&nbsp;to&nbsp;be&nbsp;the&nbsp;input&nbsp;medium&nbsp;and&nbsp;the&nbsp;bottom<br>
+medium&nbsp;is&nbsp;considered&nbsp;to&nbsp;be&nbsp;the&nbsp;exit&nbsp;medium.&nbsp;The&nbsp;reverse&nbsp;holds<br>
+for&nbsp;the&nbsp;down-top&nbsp;direction.<br>
+&nbsp;<br>
+Before&nbsp;executing&nbsp;this&nbsp;method,&nbsp;the&nbsp;calcMatrices&nbsp;method&nbsp;must<br>
+be&nbsp;invoked&nbsp;in&nbsp;order&nbsp;to&nbsp;calculate&nbsp;the&nbsp;characteristic&nbsp;matrices&nbsp;of<br>
+each&nbsp;individual&nbsp;layer.<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;this&nbsp;method&nbsp;does&nbsp;not&nbsp;return&nbsp;anything,&nbsp;it&nbsp;just&nbsp;stores<br>
+the&nbsp;global&nbsp;characteristic&nbsp;matrix&nbsp;in&nbsp;the&nbsp;corresponding&nbsp;attribute<br>
+of&nbsp;the&nbsp;multilayer.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>
