@@ -98,7 +98,7 @@ We will also use \textsf{Numpy} so we will import it as well:
 
 A medium will be defined by its complex refractive index $\tilde n$, which is a function of the wavelength $\lambda$. From now on, I will use the term \emph{refractive index} to refer to the real part $n$ of the complex refractive index $\tilde n$. The term \emph{extintion coefficient} will be used to refer to the imaginary part $k$ of the complex refractive index $\tilde n$.
 
-In order to define a medium, you will need a plain text file with three columns: one for the wavelength, another for the refractive index $n$ and a third for the extintion coefficient $k$. In the \emph{examples} subdirectory of the \textsf{multilayers} directory you can find example files for air, silicon, silicon dioxide, silicon nitride and polysilicon.
+In order to define a medium, you will need a plain text file with three columns: one for the wavelength, another for the refractive index $n$ and a third for the extintion coefficient $k$. In the \texttt{examples} subdirectory of the \textsf{multilayers} directory you can find example files for air, silicon, silicon dioxide, silicon nitride and polysilicon.
 
 To load a medium just type:
 
@@ -107,7 +107,7 @@ To load a medium just type:
     >>>
 \end{verbatim}
 
-Here what we do is load the table of refractive indices of the file \texttt{examples/sio2.dat}. Replace that for the path to the file you want to use. This creats a \texttt{Medium} object and we assign this object to a variable called \texttt{dielectric}.
+Here what we do is load the table of refractive indices of the file \texttt{examples/sio2.dat}. Replace that for the path to the file you want to use. This creates a \texttt{Medium} object and we assign this object to a variable called \texttt{dielectric}.
 
 If your file has more columns than necessary, they are in an order other than $(\lambda\;n\;k)$, they are separated by characters other than \texttt{TAB} or the comments start by something other than \texttt{\#}, you can pass some options to the previous call that will allow you to tweak the loading of the table. See the reference to the \texttt{Medium} class for more information about that.
 
@@ -123,7 +123,7 @@ To recover the range where you can interpolate the refractive index, just type:
 
 You can check that 160.0 nm and 2500.0 nm are the minimum and maximum wavelengths in the file \texttt{examples/sio2.dat}.
 
-To find out the complex refractive index at any wavelength within the interpolable range type:
+To find out the complex refractive index at any wavelength within the interpolable range, for instance 502 nm, type:
 
 \begin{verbatim}
     >>> dielectric.getRefrIndex(502)
@@ -153,7 +153,7 @@ Before building our multilayer system, let's load two more materials.
     >>>
 \end{verbatim}
 
-Now we want to work with a simple multilayer system consisting of a dielectric layer 300 nm thick on top of a silicon substrate. The medium above the layer will be air\footnote{Here we will consider the silicon substrate to be a semiinfinite medium just like the air above the dielectric. Since typically the substrate will be much thicker than the layer, it is fine to make that approximation. We could also define the layer strictly and consider the silicon substrate to be a layer of finite thickness and use another layer of air as the bottom medium instead of the silicon.}. We can generate the \texttt{Multilayer} object as follows:
+Now we want to work with a simple multilayer system consisting of a dielectric layer 300 nm thick on top of a silicon substrate. The medium above the layer will be air\footnote{Here we will consider the silicon substrate to be a semiinfinite medium just like the air above the dielectric. Since typically the substrate will be much thicker than the layer, it is fine to make that approximation. We could also define the layer strictly and consider the silicon substrate to be a layer of finite thickness and use another layer of air as the bottom medium instead of the silicon.}. See figure \ref{fig:diagram}. We can generate the \texttt{Multilayer} object as follows:
 
 \begin{verbatim}
     >>> multilayer = ml.Multilayer([
@@ -163,7 +163,7 @@ Now we want to work with a simple multilayer system consisting of a dielectric l
     >>>
 \end{verbatim}
 
-You can type the whole thing in a single line, but typing it like this makes the structure that we are creating more visually apparent. We have a \emph{top medium} made of air, then a 300 nm thick layer of dielectric, and a silicon substrate (that we will also refer to as \emph{bottom medium}). We have assigned the newly created \texttt{Multilayer} object to a variable called \texttt{multilayer}.
+You can type the whole thing in a single line, but typing it like we just did makes the structure that we are creating more visually apparent. We have a \emph{top medium} made of air, then a 300 nm thick layer of dielectric, and a silicon substrate (that we will also refer to as \emph{bottom medium}). We have assigned the newly created \texttt{Multilayer} object to a variable called \texttt{multilayer}.
 
 \textbf{Important!} Note that the thickness must be in the same units as the wavelengths.
 
@@ -238,7 +238,7 @@ Since we need all the characteristic matrices, we do:
     >>>
 \end{verbatim}
 
-Note that, since the thickness of the top medium and the substrate is infinite, the characteristic matrix does not make sense in those two layers. Therefore, when we instruct the program to calculate the matrices of all the layers as we have just done, in fact it will only calculate the matrices of the intermediate layers (in our case only the silicon dioxide).
+Note that, since the thickness of the top medium and the substrate is infinite, the characteristic matrix does not make sense in those two layers. Therefore, when we instruct the program to calculate the matrices of all the layers as we have just done, in fact it will only calculate the matrices of the intermediate layers (in our case only the silicon dioxide) but not those of the top and bottom mediums.
 
 Now we can see the matrix of each layer if we want. We use the \texttt{getMatrix} method, which gets the index of the layer as its only argument. The matrix of the silicon dioxide layer is:
 
@@ -257,7 +257,7 @@ The characteristic matrix of the top and bottom mediums is internally stored as 
     >>>
 \end{verbatim}
 
-Once we have calculated all the characteristic matrices, we are ready to calculate the global characteristic matrix of the multilayered system, which in fact is the matrix product of the matrices of all the layers. We do that with the \texttt{updateCharMatrix} method:
+Once we have the characteristic matrices of all the individual layers of the system, we are ready to calculate the global characteristic matrix of the multilayered system, which in fact is the matrix product of the matrices of all the layers. We do that with the \texttt{updateCharMatrix} method:
 
 \begin{verbatim}
     >>> multilayer.updateCharMatrix()
@@ -305,7 +305,7 @@ When we call the \texttt{updateCharMatrix} method, the program calculates not on
 
 The reflection and transmission coefficients are always complex numbers because they carry information on the phase of the wave. The reflectance will always be a real number. However, the transmittance may be real or complex. It will be complex whenever we have a complex angle or when the refractive index of either the top or bottom mediums have nonzero extintion coefficient.
 
-In this case, we have a reflectance $R \approx 0.23$, which means that if we have a wave propagating from the air towards the SiO$_2$--on--silicon system, 23\% of the energy will be reflected back towards the air (that is for the wavelength 520 nm and incidence at 25 degrees).
+In this case, we have a reflectance $R \approx 0.23$, which means that if we have a wave propagating from the air towards the SiO$_2$--on--silicon system, 23\% of the energy will be reflected back towards the air (that is for the wavelength 500 nm and incidence at 25 degrees that we set earlier).
 
 Now we will do the same for the propagation from the silicon towards the SiO$_2$--on--air system. This time we will skip the intermediate step of storing the coefficients in a variable.
 
@@ -325,7 +325,7 @@ Notice that, although the characteristic matrix was the same for both directions
 
 \subsection{Changing the state}
 
-So, we have seen that for TE polarized light with $\lambda = 500$ nm and incidence at 25 degrees from air towards a 300 nm thick silicon oxide layer on top of silicon substrate the reflectance is 0.23. What if we now want to see what happens when $\lambda = 600$ nm?
+So, we have seen that for TE polarized light with $\lambda = 500$ nm and incidence at 25 degrees from air towards a 300 nm thick silicon dioxide layer on top of silicon substrate the reflectance is 0.23. What if we now want to see what happens when $\lambda = 600$ nm?
 
 Basically, we have to set the state again, following the same order: first the wavelength (because that will change the propagation angles), then the propagation angle and finally the polarization (again, the polarization can be set at the beginning; the only requirement is that if we change the wavelength, we have to set the propagation angles again). In this case, since we want to keep the polarization in TE mode, we don't need to change it.
 
@@ -435,7 +435,7 @@ The \textsf{multilayers} module will not let you do something that would result 
     >>>
 \end{verbatim}
 
-We get nothing. That's because when we change the wavelenght, the angles and characteristic matrices are reset to \texttt{None}. Now, what if I you try to update the characteristic matrices without first resetting the angles?
+We get nothing. That's because when we change the wavelenght, the angles and characteristic matrices are reset to \texttt{None}. Now, what if you try to update the characteristic matrices without first setting the angles again?
 
 \begin{verbatim}
     >>> multilayer.calcMatrices()
@@ -448,14 +448,14 @@ We get nothing. That's because when we change the wavelenght, the angles and cha
     >>>
 \end{verbatim}
 
-Note the first error line after the statement: \texttt{Error: the propagation angle is not set}. So, we cannot calculate the matrices because we have to first update the angles. Let's do it.
+Note the first error line after the statement: \texttt{Error: the propagation angle is not set}. So, we cannot calculate the matrices because we have to update the angles first. Let's do it.
 
 \begin{verbatim}
     >>> multilayer.setPropAngle(0)
     >>>
 \end{verbatim}
 
-Now say that we want to upadte the global characteristic matrix but be forget to calculate the individual matrices first:
+Now say that we want to upadte the global characteristic matrix but we forget to calculate the individual matrices first:
 
 \begin{verbatim}
     >>> multilayer.updateCharMatrix()
