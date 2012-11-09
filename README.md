@@ -4,6 +4,10 @@ multilayers
 The multilayers python module calculates some optical properties of
 layered systems.
 
+For questions, please contact:
+Joan Juvert
+trust.no.one.51@gmail.com
+
 Contents
 --------
 
