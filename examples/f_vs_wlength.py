@@ -56,7 +56,7 @@ print("Done")
 
 # Set the fixed parameters (position in the same units as the
 # wavelengths in the files).
-angle = np.deg2rad(65)
+angle = np.deg2rad(0)
 z = 25
 
 # Create the multilayer
