@@ -27,6 +27,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # Some attributes that have a 'get' method could be decorated as
 # properties in order to supress the parantheses in the method call.
 #
+# I should take advantage of the symmetries in the characterisic
+# matrix of individual layers (m11 and m22 are equal)
+#
+# Add tests for the symmetry of R and T when all the layers are
+# insulators.
+#
 #######################################################################
 
 
