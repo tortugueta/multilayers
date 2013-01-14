@@ -166,6 +166,19 @@ class TestMultilayer(unittest.TestCase):
         fhandle.write(comstr + datastr)
         fhandle.close()
 
+        comstr = "#BogusCol0%n%k%wlength%#Comment2\n"
+        datastr = \
+                "300%1.0%0.000\n" + \
+                "350%1.1%0.000\n" + \
+                "400%1.2%0.000\n" + \
+                "500%1.0%0.000\n" + \
+                "600%1.8%0.000\n" + \
+                "700%1.7%0.000\n" + \
+                "800%1.7%0.000\n"
+        fhandle = open("testmedium4.txt", "w")
+        fhandle.write(comstr + datastr)
+        fhandle.close()
+
         comstr = "#Crawford system: silver\n#wl\tn\tk"
         datastr = \
                 "300;0.0427;3.3988\n" + \
@@ -208,6 +221,7 @@ class TestMultilayer(unittest.TestCase):
         self.medium1 = ml.Medium("testmedium1.txt", '%', usecols=[3, 1, 2])
         self.medium2 = ml.Medium("testmedium2.txt", delimiter='%')
         self.medium3 = ml.Medium("testmedium3.txt", usecols=[3, 1, 2])
+        self.medium4 = ml.Medium("testmedium4.txt", delimiter='%')
         self.cs_silver = ml.Medium("cs_silver.txt", delimiter=';')
         self.cs_dielectric = ml.Medium("cs_dielectric.txt", delimiter=';')
         self.cs_ambient = ml.Medium("cs_ambient.txt", delimiter=';')
@@ -233,6 +247,10 @@ class TestMultilayer(unittest.TestCase):
         self.mlminsame = ml.Multilayer([
                 self.medium1,
                 self.medium1])
+        self.symmetry = ml.Multilayer([
+                self.medium1,
+                [self.medium2, 300],
+                self.medium4])
         self.cssystem_f2_film = ml.Multilayer([
                 self.cs_ambient,
                 [self.cs_dielectric, 300],
@@ -275,6 +293,7 @@ class TestMultilayer(unittest.TestCase):
         remove("testmedium1.txt")
         remove("testmedium2.txt")
         remove("testmedium3.txt")
+        remove("testmedium4.txt")
         remove("cs_silver.txt")
         remove("cs_dielectric.txt")
         remove("cs_ambient.txt")
@@ -1532,6 +1551,24 @@ class TestMultilayer(unittest.TestCase):
             self.assertAlmostEqual(np.absolute(f * np.sin(angle)) ** 2, output,
                     7)
 
+    def test_symmetry(self):
+        """
+        Test that the reflectance and the transmittance are equal
+        in the up-down and down-up direction, provided all the
+        layers are insulators.
+        """
+
+        self.symmetry.setPolarization('TE')
+        self.symmetry.setWlength(600)
+        self.symmetry.setPropAngle(np.deg2rad(10))
+        self.symmetry.calcMatrices()
+        self.symmetry.updateCharMatrix()
+        Tud = self.symmetry.getCoefficientsUpDown()['T']
+        Rud = self.symmetry.getCoefficientsUpDown()['R']
+        Tdu = self.symmetry.getCoefficientsDownUp()['T']
+        Rdu = self.symmetry.getCoefficientsDownUp()['R']
+        self.assertAlmostEqual(Tud, Tdu, 12)
+        self.assertAlmostEqual(Rud, Rdu, 12)
 
 if __name__ == '__main__':
     unittest.main()
