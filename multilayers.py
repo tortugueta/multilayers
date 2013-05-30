@@ -27,6 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # Some attributes that have a 'get' method could be decorated as
 # properties in order to supress the parantheses in the method call.
 #
+# The reflection coefficients for TE and TM waves, rte and rtm, as well
+# as their ratio -rtm/rte, could be expressed in terms of ellipsometric
+# angles Psi and Delta (see Handbook of ellipsometry, Tompkins)
+#
 #######################################################################
 
 
