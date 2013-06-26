@@ -63,11 +63,11 @@ class TestMedium(unittest.TestCase):
         # Test for instantiation with wrong arguments
         self.assertRaises(IOError, ml.Medium, "")
         self.assertRaises(IOError, ml.Medium, "nonexistent.dat")
-        self.assertRaises(TypeError, ml.Medium, "testmedium1.txt", 4)
-        self.assertRaises(TypeError, ml.Medium, "testmedium1.txt", '#', 0)
+        self.assertRaises(ValueError, ml.Medium, "testmedium1.txt", 4)
+        self.assertRaises(ValueError, ml.Medium, "testmedium1.txt", '#', 0)
         self.assertRaises(AttributeError, ml.Medium, "testmedium1.txt", '#',
                 '\t', 9)
-        self.assertRaises(IOError, ml.Medium, "testmedium1.txt", '#', '\t',
+        self.assertRaises(StopIteration, ml.Medium, "testmedium1.txt", '#', '\t',
                 None, 10)
         self.assertRaises(TypeError, ml.Medium, "testmedium1.txt", '#', '\t',
                 None, 'wrong type')
@@ -814,11 +814,11 @@ class TestMultilayer(unittest.TestCase):
         self.mlsame.updateCharMatrix()
         cud = self.mlsame.getCoefficientsUpDown()
         cdu = self.mlsame.getCoefficientsDownUp()
-        self.assertEqual(cud['r'], 0)
-        self.assertEqual(cud['R'], 0)
+        self.assertAlmostEqual(cud['r'], 0, 12)
+        self.assertAlmostEqual(cud['R'], 0, 12)
         self.assertTrue(cud['R'] + cud['T'] < 1)
-        self.assertEqual(cdu['r'], 0)
-        self.assertEqual(cdu['R'], 0)
+        self.assertAlmostEqual(cdu['r'], 0, 12)
+        self.assertAlmostEqual(cdu['R'], 0, 12)
         self.assertTrue(cdu['R'] + cdu['T'] < 1)
 
         # Same as before, but the layer has zero thickness
