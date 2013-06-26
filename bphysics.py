@@ -48,7 +48,7 @@ ksi     = 11.9                  # Rel. perm. of silicon
 
 
 ###############################################################################
-#                               Functions                                     #
+#             Functions for reading and writing data to file                  #
 ###############################################################################
 
 def rdfile(fname, dtype='float', commentchar="#", delimiter=None,
@@ -157,6 +157,38 @@ def wdfile(fname, comments, data, fmt='%.18e', delimiter='\t'):
         fhandle = open(fname, "a")
         np.savetxt(fhandle, data, fmt, delimiter)
         fhandle.close()
+
+        
+###############################################################################
+#                      Useful mathematical functions                          #
+###############################################################################
+
+def gaussian(x, area, mu, sigma):
+    """
+    Returns a Gaussian function centered at "mu" with standard deviation "sigma"
+    and area "area", evaluated at x. The mathematical expression is:
+    
+    g(x) = [A / (s * sqrt(2pi))] * e^[1/2 * ((x - m) / s)^2]
+    
+    where A is the area under the curve, s is the standard deviation and m is
+    the mean.
+    
+    Parameters
+    ----------
+    x : int or float
+        The point where the function is to be evaluated
+    area : int or float
+        The total area under the curve of the Gaussian function
+    mu : int or float
+        The mean of the Gaussian function
+    sigma : int or float
+        The standard deviation of the Gaussian function.
+    """
+    
+    factor = area / (sigma * np.sqrt(2 * np.pi))
+    exponential = np.exp(-0.5 * ((x - mu) / sigma)**2)
+    
+    return factor * exponential
 
 
 ###############################################################################
